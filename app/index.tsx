@@ -1,23 +1,35 @@
-import { grey, orange, white, yellow } from "@/constants/Colors";
-import { Text, useColorScheme, StyleSheet, ScrollView } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { yellow } from "@/constants/Colors";
+import { useEffect, useRef, useState } from "react";
+import { Animated, StyleSheet, Text, View } from "react-native";
 
-export default function Index() {
-  const colorScheme = useColorScheme();
+export default function HomeScreen() {
+  const [showContent, setShowContent] = useState(false);
+  const translateY = useRef(new Animated.Value(300)).current;
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      Animated.timing(translateY, {
+        toValue: 0,
+        duration: 2000,
+        useNativeDriver: true,
+      }).start(() => {
+        setShowContent(true);
+      });
+    }, 2000);
 
-  const themeTextStyle =
-    colorScheme === "light" ? styles.lightThemeText : styles.darkThemeText;
-  const themeContainerStyle =
-    colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
-
+    return () => clearTimeout(timer);
+  }, []);
   return (
-    <ScrollView>
-      <SafeAreaView style={(styles.container, themeContainerStyle)}>
-        <Text style={[styles.text, themeTextStyle]}>
-          Color scheme: {colorScheme}
-        </Text>
-      </SafeAreaView>
-    </ScrollView>
+    <View style={styles.container}>
+      <Animated.Image
+        style={[styles.logo, { transform: [{ translateY }] }]}
+        source={require("../assets/images/orange_logo.png")}
+      ></Animated.Image>
+      {showContent && (
+        <View>
+          <Text>Здесь ваш контент</Text>
+        </View>
+      )}
+    </View>
   );
 }
 
@@ -25,21 +37,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
-  },
-  text: {
-    fontSize: 200,
-  },
-  lightContainer: {
     backgroundColor: yellow,
+    padding: 40,
   },
-  darkContainer: {
-    backgroundColor: orange,
+  logo: {
+    height: 40,
+    width: 200,
+    resizeMode: "cover",
   },
-  lightThemeText: {
-    color: white,
+  animLogoOne: {
+    padding: "50%",
+    height: 10,
   },
-  darkThemeText: {
-    color: grey,
+  animLogotwo: {
+    padding: "50%",
   },
 });
