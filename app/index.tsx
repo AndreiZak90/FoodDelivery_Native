@@ -1,6 +1,8 @@
+import Advertising from "@/Components/Advertising";
+import MenuTile from "@/Components/MenuTile";
 import { yellow } from "@/constants/Colors";
 import { useEffect, useRef, useState } from "react";
-import { Animated, StyleSheet, Text, View } from "react-native";
+import { Animated, ScrollView, StyleSheet, View } from "react-native";
 
 export default function HomeScreen() {
   const [showContent, setShowContent] = useState(false);
@@ -9,25 +11,33 @@ export default function HomeScreen() {
     const timer = setTimeout(() => {
       Animated.timing(translateY, {
         toValue: 0,
-        duration: 2000,
+        duration: 1000,
         useNativeDriver: true,
       }).start(() => {
         setShowContent(true);
       });
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [translateY]);
   return (
     <View style={styles.container}>
       <Animated.Image
         style={[styles.logo, { transform: [{ translateY }] }]}
         source={require("../assets/images/orange_logo.png")}
-      ></Animated.Image>
+      />
       {showContent && (
-        <View>
-          <Text>Здесь ваш контент</Text>
-        </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Advertising />
+          <View style={styles.boxItem}>
+            <MenuTile />
+            <MenuTile />
+            <MenuTile />
+            <MenuTile />
+            <MenuTile />
+            <MenuTile />
+          </View>
+        </ScrollView>
       )}
     </View>
   );
@@ -38,18 +48,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     backgroundColor: yellow,
-    padding: 40,
+    paddingTop: 40,
   },
   logo: {
     height: 40,
     width: 200,
-    resizeMode: "cover",
+    objectFit: "cover",
   },
-  animLogoOne: {
-    padding: "50%",
-    height: 10,
-  },
-  animLogotwo: {
-    padding: "50%",
+  boxItem: {
+    marginHorizontal: "auto",
   },
 });
