@@ -1,16 +1,22 @@
 import { white } from "@/constants/Colors";
-import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import { Image } from "expo-image";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 
 const { width: screenWidth } = Dimensions.get("window");
+
+const halfScreen = screenWidth / 2;
 
 export default function Advertising() {
   return (
     <View style={styles.advertising}>
       <Image
         style={styles.advertisingImg}
-        source={require("../images/image/hot_dog/hd1.png")}
+        source={require("../assets/MainLogoImg/PizzaGIF.gif")}
       />
-      <Text style={styles.advertisingText}>Лучшие Бургеры и Хот-Доги</Text>
+
+      <Text style={styles.advertisingText}>
+        Лучшие Бургеры, Хот-Доги и Пицца
+      </Text>
     </View>
   );
 }
@@ -22,12 +28,16 @@ const styles = StyleSheet.create({
   },
   advertisingImg: {
     width: screenWidth,
+    height: 200,
     objectFit: "cover",
   },
   advertisingText: {
     position: "absolute",
-    top: 0,
-    left: 0,
+    top: 20,
+    left: halfScreen - 120,
+    width: 240,
     color: white,
+    textAlign: "center",
+    fontSize: 20,
   },
 });

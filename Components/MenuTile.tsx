@@ -1,39 +1,46 @@
 import { orange, white } from "@/constants/Colors";
+import { Link } from "expo-router";
 import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 
 const { width: screenWidth } = Dimensions.get("window");
-export default function MenuTile() {
+
+interface ItemCardProps {
+  item: any;
+}
+
+export default function MenuTile({ item }: ItemCardProps) {
   return (
-    <View style={styles.box}>
-      <Image
-        style={styles.imagesTile}
-        source={require("../images/image/burger/burger1.png")}
-      />
-      <Text style={styles.textTile}>Бургеры</Text>
-    </View>
+    <Link href={"/menu"}>
+      <View style={styles.box}>
+        <Image style={styles.imagesTile} source={item.img} />
+        <Text style={styles.textTile}>{item.name}</Text>
+      </View>
+    </Link>
   );
 }
 
 const styles = StyleSheet.create({
   box: {
     flex: 1,
+    flexDirection: "row",
     alignItems: "center",
+    gap: 20,
     width: Math.min(screenWidth * 0.9, 300),
-    height: 170,
+    height: 130,
     borderWidth: 2,
     borderColor: orange,
-    borderRadius: 10,
-    padding: 10,
+    borderRadius: 22,
+    paddingVertical: 10,
+    paddingHorizontal: 5,
     backgroundColor: white,
   },
   imagesTile: {
-    width: 100,
-    height: 100,
+    width: 120,
+    height: 120,
     objectFit: "cover",
     borderRadius: 20,
   },
   textTile: {
-    marginTop: 20,
     fontWeight: "bold",
     fontSize: 20,
   },

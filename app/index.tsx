@@ -1,12 +1,15 @@
 import Advertising from "@/Components/Advertising";
-import MenuTile from "@/Components/MenuTile";
 import { yellow } from "@/constants/Colors";
 import { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView, StyleSheet, View } from "react-native";
 
+import MenuTile from "@/Components/MenuTile";
+import mainMenu from "../back/mainMenu";
+
 export default function HomeScreen() {
   const [showContent, setShowContent] = useState(false);
   const translateY = useRef(new Animated.Value(300)).current;
+
   useEffect(() => {
     const timer = setTimeout(() => {
       Animated.timing(translateY, {
@@ -20,6 +23,7 @@ export default function HomeScreen() {
 
     return () => clearTimeout(timer);
   }, [translateY]);
+
   return (
     <View style={styles.container}>
       <Animated.Image
@@ -30,12 +34,9 @@ export default function HomeScreen() {
         <ScrollView showsVerticalScrollIndicator={false}>
           <Advertising />
           <View style={styles.boxItem}>
-            <MenuTile />
-            <MenuTile />
-            <MenuTile />
-            <MenuTile />
-            <MenuTile />
-            <MenuTile />
+            {mainMenu.map((item, index) => (
+              <MenuTile key={index} item={item} />
+            ))}
           </View>
         </ScrollView>
       )}
